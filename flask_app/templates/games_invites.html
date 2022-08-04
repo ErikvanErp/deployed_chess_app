@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+<nav>
+    <a href="/games" class="btn btn-outline-secondary">Games</a>
+    <a href="/user/logout" class="btn btn-outline-secondary">Logout</a>
+</nav>
+{% endblock %}
+
+
+{% block body %}
+
+<!-- send game invitation -->
+<div class="row mt-3">
+    <div class="col mx-auto">
+        <h3>Send a Game Invitation</h3>
+        <form action="/games/invite" method="post">
+            <div class="form-group my-3">
+                <select class="form-control" name="opponent">
+                    <option value=-1>Select a player</option>
+                    {% for user in all_users %}
+                    {% if not user.id == session['user_id'] %}
+                    <option value={{ user.id }}>{{ user.full_name }} </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            {% with msgs = get_flashed_messages(category_filter=["invite_error"]) %}
+            {% if msgs %}
+            {% for msg in msgs %}
+            <p style="color:red">{{ msg }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-check-inline mb-3">
+                <input class="form-check-input" type="radio" name="white" value=0 id="black" checked/>
+                <label class="form-check-label" for="black">You play Black</label>
+            </div>
+            <div class="form-check-inline">
+                <input class="form-check-input" type="radio" name="white" value=1 id="white"/>
+                <label class="form-check-label" for="white">You play White</label>
+            </div>
+        
+            <button type="submit" class="btn btn-primary" style="width:100%">Invite</button>
+        </form>
+    </div>
+</div>
+
+<!-- accept pending invitations -->
+<div class="row mt-5">
+    <div class="col mx-auto">
+        <h3>Accept Game Invitations</h3>
+        {% if invitations %}
+        <p>Select an invitation to start a new game</p>
+        {% else %}
+        <p>You have no new invitations</p>
+        {% endif %}
+        {% for invitation in invitations %}
+        <div>
+            <a href="/games/{{ invitation.id }}/accept" class="btn btn-outline-secondary"" style="width:100%"">
+                {{ invitation.current_opponent.full_name }} 
+                with 
+                {% if invitation.current_is_white %}
+                Black
+                {% else %}
+                White
+                {% endif %}
+                ({{ invitation.created_at.strftime('%B %d, %Y')}})
+            </a>
+        </div>
+        {% endfor %}
+
+        
+    </div>
+</div>
+
+{% endblock %}

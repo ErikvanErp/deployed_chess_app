@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- registration -->
+<div class="row">
+    <div class="col mx-auto">            
+        <p>Don't have an account yet? Register here.</p>
+        <form action="/user/register" method="post">
+            <div class="form-group">
+                <label for="fname">First Name</label>
+                <input type="text" name="first_name" id="fname" class="form-control"> 
+            </div>
+            {% with messages = get_flashed_messages(category_filter=['invalid_first_name']) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-group">
+                <label for="lname">Last Name</label>
+                <input type="text" name="last_name" id="lname" class="form-control"> 
+            </div>
+            {% with messages = get_flashed_messages(category_filter=['invalid_last_name']) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control"> 
+            </div>
+            {% with messages = get_flashed_messages(category_filter=['invalid_email']) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-group">
+                <label for="pwd">Password</label>
+                <input type="password" name="password" id="pwd" class="form-control"> 
+            </div>
+            {% with messages = get_flashed_messages(category_filter=['invalid_password']) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-group">
+                <label for="pwd2">Confirm Password</label>
+                <input type="password" name="password_confirm" id="pwd2" class="form-control"> 
+            </div>
+            {% with messages = get_flashed_messages(category_filter=['invalid_confirm']) %}
+            {% if messages %}
+            {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <button type="submit" class="btn btn-primary my-3" style="width:100%">Register</button>
+
+        </form>
+    </div>
+    
+    <div class="mt-3">
+        <p>Already have an account? </p>
+        
+        <a href="/" class="btn btn-secondary" style="width:100%">Login</a>
+    </div>
+</div>
+
+{% endblock %}
