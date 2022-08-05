@@ -98,7 +98,18 @@ def games_play(game_id):
 
     this_game = game.Game.get_by_game_id({"game_id": game_id})
 
-    return render_template("play.html", this_game=this_game)
+    # columns = {"7":"a", "6":"b", "5":"c", "4":"d", "3":"e", "2":"f", "1":"g", "0":"h"}
+    columns = {7:"a", 6:"b", 5:"c", 4:"d", 3:"e", 2:"f", 1:"g", 0:"h"}
+    rows = {0:"1", 1:"2", 2:"3", 3:"4", 4:"5", 5:"6", 6:"7", 7:"8"}
+
+    last_move = this_game.last_move
+    last_move_piece = game.Game.pieces[last_move.piece][2]
+    last_move_string = columns[last_move.from_column]
+    last_move_string += rows[last_move.from_row]
+    last_move_string += columns[last_move.to_column]
+    last_move_string += rows[last_move.to_row]
+
+    return render_template("play.html", this_game=this_game, last_move=last_move_string, last_move_piece=last_move_piece)
 
 
 # process a proposed move

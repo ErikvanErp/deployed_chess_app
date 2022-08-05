@@ -14,7 +14,7 @@
 
         <div id="game_id" style="display:none">{{ this_game.id }}</div>
         
-        <div class="my-3" style="display:flex; justify-content: space-between;">
+        <div class="my-3" style="display:flex; justify-content: space-between; align-items: baseline;">
             <div>
                 {% if this_game.current_is_white and this_game.is_current_player_turn %}
                 <div style="display:flex; align-items: center;">White: You 
@@ -31,12 +31,12 @@
 
             {# display move number, and check or check-mate #}
             <div>
-                Move {{ this_game.move_number}}
+                Move {{ this_game.move_number}}.  <span style="font-size:1.5em">{{ last_move_piece }}</span>{{ last_move }}
                 {% if this_game.status == 2 %} - <span style="color:red">Check</span>
                 {% elif this_game.status == 3 %} - <b>Draw offered</b>
                 {% elif this_game.status == 4 %} - <b>Draw</b>
                 {% elif this_game.status == 5 %} - <b>Resigned</b>
-                {% elif this_game.status == 6 %} - <span style="">Check mate</span>
+                {% elif this_game.status == 6 %} - <span style="color:red">Check mate</span>
                 {% endif %}
             </div>
         </div>
