@@ -103,11 +103,15 @@ def games_play(game_id):
     rows = {0:"1", 1:"2", 2:"3", 3:"4", 4:"5", 5:"6", 6:"7", 7:"8"}
 
     last_move = this_game.last_move
-    last_move_piece = game.Game.pieces[last_move.piece][2]
-    last_move_string = columns[last_move.from_column]
-    last_move_string += rows[last_move.from_row]
-    last_move_string += columns[last_move.to_column]
-    last_move_string += rows[last_move.to_row]
+    if (last_move):
+        last_move_piece = game.Game.pieces[last_move.piece][2]
+        last_move_string = columns[last_move.from_column]
+        last_move_string += rows[last_move.from_row]
+        last_move_string += columns[last_move.to_column]
+        last_move_string += rows[last_move.to_row]
+    else:
+        last_move_piece = ""
+        last_move_string = ""
 
     return render_template("play.html", this_game=this_game, last_move=last_move_string, last_move_piece=last_move_piece)
 
