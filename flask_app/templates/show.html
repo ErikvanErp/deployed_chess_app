@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+<nav>
+    <a href="/games" class="btn btn-outline-secondary">Games</a>
+    <a href="/user/logout" class="btn btn-outline-secondary">Logout</a>
+</nav>
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col mx-auto">
+
+        <div id="game_id" style="display:none">{{ this_game.id }}</div>
+        
+        <div class="my-3" style="display:flex; justify-content: space-between; align-items: baseline;">
+            <div>
+                {% if this_game.current_is_white %}
+                <div style="display:flex; align-items: center;">White: You</div>
+                {% else %}
+                <div>White: {{ this_game.current_opponent.full_name}}</div>
+                {% endif %}
+            </div>
+
+            {# display move number, and check or check-mate #}
+            <div>
+                Move {{ this_game.move_number}}.  <span style="font-size:1.5em">{{ last_move_piece }}</span>{{ last_move }}
+                {% if this_game.status == 2 %} - <span style="color:red">Check</span>
+                {% elif this_game.status == 3 %} - <b>Draw offered</b>
+                {% elif this_game.status == 4 %} - <b>Draw</b>
+                {% elif this_game.status == 5 %} - <b>Resigned</b>
+                {% elif this_game.status == 6 %} - <span style="color:red">Check mate</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        
+        {# display the current board #}
+        {% for row in this_game.tiles_array_of_tuples %}
+        {% set outer_loop = loop %}
+        <div style="display:flex">
+            {% for tile in row %}
+            {% set inner_loop = loop %}
+            {% set css_id = (outer_loop.index - 1) ~ (inner_loop.index - 1) %}
+
+                {# light tiles #}
+                {% if (outer_loop.index + inner_loop.index) % 2 == 1 %}
+                    <div  id="{{ css_id }}" class="tile light">
+                
+                {# dark tiles #}
+                {% else %}
+                    <div  id="{{ css_id }}" class="tile dark">
+                {% endif %} 
+
+                {# tile[2] is unicode for chess piece #}
+
+                {{ tile[2] }}
+                </div>
+
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+        <div class="mt-3">
+            {% if this_game.current_is_white %}
+            <div>Black: {{ this_game.current_opponent.full_name}}</div>
+            {% else %}
+            <div style="display:flex; align-items: center;">Black: You</div>
+            {% endif %}
+        </div>
+        
+    </div>
+</div>
+
+<script src="/static/js/play.js">
+
+</script>
+
+{% endblock %}

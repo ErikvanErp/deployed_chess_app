@@ -60,7 +60,7 @@
 
             {% for game in completed_games %}
             <div>
-                <a href="/games/{{ game.id }}/play" class="btn btn-light btn-outline-secondary my-1" style="width:100%">
+                <a href="/games/{{ game.id }}/show" class="btn btn-light btn-outline-secondary my-1" style="width:100%">
                     {{ game.current_opponent.full_name}}
                     <span>{% if game.current_is_white %} with Black {% else %} with White {% endif %}</span>
                     (move {{ game.move_number}})
