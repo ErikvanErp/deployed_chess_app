@@ -25,6 +25,10 @@ def games_show():
             games_my_turn.append(this_game)
         else:
             games_waiting.append(this_game)
+    
+    # show all completed games (status == 4, 5, or 6)
+    # in which current player is involved
+    completed_games = game.Game.get_completed_games_by_user_id({"user_id": session["user_id"]})
 
     # retrieve all pending games in which user is involved
     pending_games = game.Game.get_by_user_id({"user_id": session["user_id"], "status": 0})
@@ -35,7 +39,7 @@ def games_show():
         if pending_game.opponent_id ==  session["user_id"]:
             number_pending += 1
 
-    return render_template("games.html", games_my_turn=games_my_turn, games_waiting=games_waiting, number_pending=number_pending)
+    return render_template("games.html", games_my_turn=games_my_turn, games_waiting=games_waiting, completed_games=completed_games, number_pending=number_pending)
 
 
 # load the form where user can invite other users to play

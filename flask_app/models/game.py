@@ -277,6 +277,28 @@ class Game():
             my_games.append(this_game)
 
         return my_games
+    
+    # get game information by user_id 
+    # for active games
+    @classmethod
+    def get_completed_games_by_user_id(cls, data):
+
+        query  = '''SELECT * from games 
+                    JOIN users ON user_id = users.id
+                    JOIN (SELECT * FROM users) d ON opponent_id = d.id 
+                    WHERE (user_id = %(user_id)s OR opponent_id = %(user_id)s)
+                    AND (status = 4 OR status = 5 OR status = 6)
+                    ORDER BY games.updated_at;
+                '''
+        result = connectToMySQL(cls.db).query_db(query, data)
+
+        my_games = []
+        for row in result:
+        
+            this_game = cls.construct_from_query_result(row)
+            my_games.append(this_game)
+
+        return my_games
 
     # get game information by user_id 
     # must specify a status in data
