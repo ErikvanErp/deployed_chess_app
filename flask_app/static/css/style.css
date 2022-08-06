@@ -24,7 +24,7 @@
     text-align:center; 
     line-height:45px; 
     font-size: 45px; 
-    font-family: -apple-system; 
+    font-family: -apple-system, sans-serif; 
 }
 .light {
     background-color: white;
