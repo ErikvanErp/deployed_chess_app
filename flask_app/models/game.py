@@ -265,7 +265,7 @@ class Game():
                     JOIN users ON user_id = users.id
                     JOIN (SELECT * FROM users) d ON opponent_id = d.id 
                     WHERE (user_id = %(user_id)s OR opponent_id = %(user_id)s)
-                    AND status = 1 OR status = 2 OR status = 3
+                    AND (status = 1 OR status = 2 OR status = 3)
                     ORDER BY games.updated_at;
                 '''
         result = connectToMySQL(cls.db).query_db(query, data)
